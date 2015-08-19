@@ -92,6 +92,13 @@
 
             formWrapper.innerHTML = '<h3><i class="repost_icon i_icon"></i>'+t('vkContest')+'</h3>';
 
+            self.errorWrapper = document.createElement('span');
+            self.errorWrapper.className = 'error';
+            self.errorWrapper.innerHTML =  t('retry');
+            self.errorWrapper.style.display = 'none';
+            formWrapper.appendChild(self.errorWrapper);
+
+
             var form = document.createElement('form');
             form.className = 'vk_contest-random';
             form.innerHTML = '<input name="min" type="text" value="1"/>';
@@ -103,20 +110,22 @@
             submit.value = 'Generate';
 
 
-
             form.appendChild(submit);
             formWrapper.appendChild(form);
 
             form.onsubmit = function (e) {
                 e.preventDefault();
-                var min = this.elements['min'].value;
-                var max = this.elements['max'].value;
 
-                var result = self.generateRandomNumber(max, min);
+                self.hideError();
+                var min = parseInt(this.elements['min'].value);
+                var max = parseInt(this.elements['max'].value);
 
-                document.querySelector('.vk-contest_result').innerHTML = result;
+                if (isNaN(min) || isNaN(max)){
+                    self.showError();
+                    return true;
+                }
 
-
+                document.querySelector('.vk-contest_result').innerHTML = self.generateRandomNumber(max, min);
 
             };
 
@@ -132,9 +141,17 @@
 
         };
 
+        self.showError = function(){
+            self.errorWrapper.style.display = 'block';
+        };
+
+        self.hideError = function(){
+            self.errorWrapper.style.display = 'none';
+        };
+
         self.generateRandomNumber = function(max, min){
             var result = Math.floor(Math.random() * (max - min + 1) + min);
-            if (result == self.lastRandomNumber || result == 0){
+            if (result == self.lastRandomNumber || result === 0 || isNaN(result)){
                 result = self.generateRandomNumber();
             }
 

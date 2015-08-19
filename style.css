@@ -82,3 +82,12 @@
     margin: 5px 0;
     text-align: center;
 }
+
+.vk_contest-random-wrapper .error {
+    color: #cb3d4b;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+}

@@ -4,5 +4,8 @@
   },
   "menu": {
     "message": "Random number"
+  },
+  "retry": {
+    "message": "Please, try again"
   }
 }
